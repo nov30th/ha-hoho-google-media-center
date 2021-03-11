@@ -38,6 +38,10 @@ Your local folder should looks like this:
 | -- media/
 | -- | mp3/
 | -- | -- | a.mp3
+| -- | -- | d.ogg
+| -- | -- | sub-folder/
+| -- | -- | -- |oh-yes.mp3
+| -- | -- | -- |oh-no.mp3
 | -- | favorite_mp3/
 | -- | -- | b.mp3
 | -- | -- | c.mp3
@@ -93,6 +97,7 @@ Your local folder should looks like this:
     playlist_mapping|Mapping the input_select.music_playlist items to your local folder
     msg.album_cover_temp_file|Music album cover image tempuary file
     msg.album_cover_temp_url|The URL of album_cover_temp_file
+    file_exts_filter|file types
 
 ## Enjoy the powerful node-red and this content.
 
