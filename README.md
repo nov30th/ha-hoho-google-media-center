@@ -86,6 +86,14 @@ Your local folder should looks like this:
     name: Next Song
     ```
 
+    > Volume Control
+    ```
+    type: entities
+    entities:
+    - type: 'custom:slider-entity-row'
+        entity: media_player.home_group
+    ```
+
 ## Configuration
 
 1. Edit the "PLAYLIST mapping" in node-red.
@@ -96,7 +104,7 @@ Your local folder should looks like this:
     ---|---
     playlist_mapping|Mapping the input_select.music_playlist items to your local folder
     msg.album_cover_temp_file|Music album cover image tempuary file
-    msg.album_cover_temp_url|The URL of album_cover_temp_file
+    msg.album_cover_temp_url|The URL of album_cover_temp_file, DOMAIN could be ip address.
     file_exts_filter|file types
 
 ## Enjoy the powerful node-red and this content.
