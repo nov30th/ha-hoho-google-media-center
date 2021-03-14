@@ -62,8 +62,9 @@ Your local folder should looks like this:
 
     Name|Version
     ---|---
-    node-red-contrib-media-tags|0.0.6
-    node-red-contrib-fs-ops|1.6.0
+    node-red-contrib-fs|1.4.1 or above
+    node-red-contrib-media-tags|0.0.6 or above
+    node-red-contrib-fs-ops|1.6.0 or above
 
 
 3. Parse the node-red flow to your HA node-red.
