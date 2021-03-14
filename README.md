@@ -14,13 +14,13 @@ Homemade music centre via Chromecast with node-red in Homeassistant.
 - Shuffling music / Stop playing to Google Home / Nest by toggle the music_time button.
 - Shuffling music / Stop playing by telling Google Home / Nest to turn on/off "Music Time" (google_assistant linked with HA required).
 - Stop the music playing (e.g "Hey Google, Stop") to media_player will stop shuffling music automatically.
-- Pause the music playing (e.g. "Hey Google, pause music") to media_player will shuffling the next song automatically.
-- Play the next song by simply calling service media_player.media_stop or media_player.media_pause
+- Play the next song by simply calling service media_player.media_stop.
 - Music can be played with different playlists.
 - Favorite songs can be added or delete by press the Favorite button.
-- Added favourite button that can make it likes a rich functional media player.
+- Added favorite button that can make it look likes a rich functional media player.
 - Supports ID3 of mp3 file to media player displaying.
 - Media player has a background if the media file contains an image.
+- Local media playing will stop automatically if you have voice-controlled like News or play online music.
 
 ## Before Setup
 
@@ -46,7 +46,7 @@ Your local folder should looks like this:
 | -- | -- | b.mp3
 | -- | -- | c.mp3
 ```
-> I mounted the folder (/config/media) [rw] from my SMB server, you could simply create this folder if disk space is not a problem.
+> I mounted the folder (/config/media) [rw] from my SMB server, as you could easily create this folder if disk space is not a problem.
 
 ## Setup
 
@@ -67,7 +67,9 @@ Your local folder should looks like this:
 
 
 3. Parse the node-red flow to your HA node-red.
-[Node-Red Code](node-red.txt)
+[Node-Red Code](node-red_main.txt)
+[Node-Red Fav Button Control](node-red_fav_btn.txt)
+
 
 4. Add buttons to your Lovelace page.
 
@@ -106,6 +108,8 @@ Your local folder should looks like this:
     msg.album_cover_temp_file|Music album cover image tempuary file
     msg.album_cover_temp_url|The URL of album_cover_temp_file, DOMAIN could be ip address.
     file_exts_filter|file types
+    msg.fix_ha_media_player|Whether fixes the issue of HA media_player
+    msg.rich_info_support|Whether read the metadata in music file push to media_player instead of filenames.
 
 ## Enjoy the powerful node-red and this content.
 
