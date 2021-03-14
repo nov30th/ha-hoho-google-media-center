@@ -45,7 +45,7 @@
         "type": "function",
         "z": "13ac7585.18210a",
         "name": "deal with url",
-        "func": "file_name = \"\";\nfile_names = msg.payload;\nif (!Array.isArray(file_names))\n    file_names = new Array(file_names);\nif (file_names.length < 20 || global.get(\"hohoFavoriteSong\") == undefined){\n    file_name = file_names[0];\n    msg.played = [];\n}else{\n    i = 0;\n    data = global.get(\"hohoFavoriteSong\");\n    msg.played = data.played;\n    for(i = 0; i < file_names.length; i++){\n        file_name = file_names[i];\n        if (msg.played.includes(file_name))\n            continue;\n        msg.played.push(file_name);\n        break;\n    }\n    if (i >= file_names.length){\n        msg.played = [];\n    }\n}\nfile_name = file_name.replace(msg.playlist_path,\"\");\n//msg.local_file_name = file_name;\nmsg.filename = msg.playlist_path + file_name;\nmsg.pure_file_name = msg.filename.split(\"/\").pop();\nsong_title = msg.pure_file_name;\nmsg.file_exts.forEach(ext=>song_title=song_title.replace(ext,\"\"))\nmedia_file_name = msg.playlist_path.replace(\"/config/\",\"/media/\")\n    + file_name;\nmsg.file_name = file_name;\nmsg.song_title = song_title;\nmsg.post_data = {\"media_content_id\":media_file_name,\"media_content_type\":\"audio/mp3\"}\nmsg.post_data[\"extra\"] ={\"metadata\": {\"metadataType\":3,\"title\":song_title}}\nglobal.set(\"hohoFavoriteSong\",msg);\nreturn msg;",
+        "func": "file_name = \"\";\nfile_names = msg.payload;\nif (!Array.isArray(file_names))\n    file_names = new Array(file_names);\nif (file_names.length < 20 || global.get(\"hohoFavoriteSong\") == undefined){\n    file_name = file_names[0];\n    msg.played = [];\n}else{\n    i = 0;\n    data = global.get(\"hohoFavoriteSong\");\n    msg.played = data.played;\n    for(i = 0; i < file_names.length; i++){\n        file_name = file_names[i];\n        if (msg.played.includes(file_name))\n            continue;\n        msg.played.push(file_name);\n        break;\n    }\n    if (i >= file_names.length){\n        msg.played = [];\n    }\n}\nfile_name = file_name.replace(msg.playlist_path,\"\");\n//msg.local_file_name = file_name;\nmsg.filename = msg.playlist_path + file_name;\nmsg.pure_file_name = msg.filename.split(\"/\").pop();\nsong_title = msg.pure_file_name;\nmsg.file_exts.forEach(ext=>song_title=song_title.replace(ext,\"\"))\nmedia_file_name = \"/media/\" + msg.playlist_path.replace(\n    msg.media_root_path,\n    msg.media_root_name)\n    + file_name;\nmsg.file_name = file_name;\nmsg.song_title = song_title;\nmsg.post_data = {\"media_content_id\":media_file_name,\"media_content_type\":\"audio/mp3\"}\nmsg.post_data[\"extra\"] ={\"metadata\": {\"metadataType\":3,\"title\":song_title}}\nglobal.set(\"hohoFavoriteSong\",msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -54,7 +54,8 @@
         "y": 80,
         "wires": [
             [
-                "e0e8e448.a65c98"
+                "e0e8e448.a65c98",
+                "4374fd33.f4ea24"
             ]
         ]
     },
@@ -261,7 +262,7 @@
         "type": "function",
         "z": "13ac7585.18210a",
         "name": "PLAYLIST mapping",
-        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path.\n\n//============THE CONFIG AREA=============\n\n\n//The playlist path mapping, you can edit them to yours.\n//Make sure the key name exists in input_select.music_playlist\nplaylist_mapping = {\n    \"Mp3\":\"/config/media/mp3/\",\n    \"My Favorite\":\"/config/media/favorite_mp3/\",\n};\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"http[s]://[YOUR HA DOMAIN]/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n\n\n//============END CONFIG AREA=============\n\n\n\nmsg.playlist_mapping = playlist_mapping;\npath = playlist_mapping[msg.payload];\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
+        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path with fav button working.\n\n//============THE CONFIG AREA=============\n\n//For Robert and someone who has different mounting point\n//e.g. if you have \"music: /config/media\" in \"media_dirs:\", put it here\n//one media_dirs mapping only\none_media_dirs_in_ha_conf = \"music: /config/media\"\n\n//The playlist path mapping, you can edit them to yours.\n//values are relative path under the one_media_dirs_in_ha_conf\n//e.g. I have /config/media/mp3/ and /config/media/favorite_mp3/\n//Make sure the key name exists in input_select.music_playlist\n\nplaylist_mapping = {\n    \"Mp3\":\"mp3/\",\n    \"My Favorite\":\"favorite_mp3/\",\n};\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"https[OR HTTP]://[YOUR HA DOMAIN OR IP]/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n//============END CONFIG AREA=============\n\n\n\nObject.map = function(o, f, ctx) {\n    ctx = ctx || this;\n    var result = {};\n    Object.keys(o).forEach(function(k) {\n        result[k] = f.call(ctx, o[k], k, o); \n    });\n    return result;\n}\n\none_media_dirs_in_ha_conf = one_media_dirs_in_ha_conf.replace(\" \",\"\").split(':');\nmsg.media_root_name = one_media_dirs_in_ha_conf[0];\nmsg.media_root_path = one_media_dirs_in_ha_conf[1];\nplaylist_mapping = Object.map(playlist_mapping, function(v, k, playlist_mapping) {\n     return msg.media_root_path + '/' + v;\n  });\n// msg.playlist_mapping = playlist_mapping.map((key,value)=>value=media_root_path+value);\npath = playlist_mapping[msg.payload];\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -270,7 +271,8 @@
         "y": 100,
         "wires": [
             [
-                "42dc6497.38688c"
+                "42dc6497.38688c",
+                "4374fd33.f4ea24"
             ]
         ]
     },
@@ -763,6 +765,52 @@
                 "8e95060b.c023e8"
             ],
             []
+        ]
+    },
+    {
+        "id": "4374fd33.f4ea24",
+        "type": "debug",
+        "z": "13ac7585.18210a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "8d4ea383.c8183",
+        "type": "inject",
+        "z": "13ac7585.18210a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 40,
+        "wires": [
+            [
+                "d0b8c29b.4f194"
+            ]
         ]
     },
     {

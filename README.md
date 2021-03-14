@@ -25,11 +25,11 @@ Homemade music centre via Chromecast with node-red in Homeassistant.
 ## Before Setup
 
 1. You need to have node-red installed in your HA.
-2. Set your media folder as following
+2. Set your media folder as following or customized and configure it in node-red later.
 ```
 homeassistant:
   media_dirs:
-    media: /config/media
+    music: /config/media
 ```
 
 Your local folder should looks like this:
@@ -104,6 +104,7 @@ Your local folder should looks like this:
 
     Var|Meaning
     ---|---
+    one_media_dirs_in_ha_conf|For Robert and someone who has different mounting point in media_dirs
     playlist_mapping|Mapping the input_select.music_playlist items to your local folder
     msg.album_cover_temp_file|Music album cover image tempuary file
     msg.album_cover_temp_url|The URL of album_cover_temp_file, DOMAIN could be ip address.
