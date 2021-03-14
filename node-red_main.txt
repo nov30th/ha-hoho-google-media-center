@@ -261,7 +261,7 @@
         "type": "function",
         "z": "13ac7585.18210a",
         "name": "PLAYLIST mapping",
-        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path.\n\n//============THE CONFIG AREA=============\n\n\n//The playlist path mapping\nplaylist_mapping = {\n    \"Mp3\":\"/config/media/mp3/\",\n    \"My Favorite\":\"/config/media/favorite_mp3/\",\n};\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"http[s]://[YOUR HA DOAMIN]:38123/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n\n\n//============END CONFIG AREA=============\n\n\n\nmsg.playlist_mapping = playlist_mapping;\npath = playlist_mapping[msg.payload];\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
+        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path.\n\n//============THE CONFIG AREA=============\n\n\n//The playlist path mapping, you can edit them to yours.\n//Make sure the key name exists in input_select.music_playlist\nplaylist_mapping = {\n    \"Mp3\":\"/config/media/mp3/\",\n    \"My Favorite\":\"/config/media/favorite_mp3/\",\n};\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"http[s]://[YOUR HA DOMAIN]/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n\n\n//============END CONFIG AREA=============\n\n\n\nmsg.playlist_mapping = playlist_mapping;\npath = playlist_mapping[msg.payload];\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -613,7 +613,7 @@
         "override_data": "msg",
         "blockInputOverrides": false,
         "x": 570,
-        "y": 360,
+        "y": 300,
         "wires": [
             [
                 "a232d975.043968"
@@ -740,8 +740,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 450,
-        "y": 280,
+        "x": 410,
+        "y": 360,
         "wires": [
             []
         ]
