@@ -67,8 +67,10 @@ Your local folder should looks like this:
 
 
 3. Parse the node-red flow to your HA node-red.
-[Node-Red Code](node-red_main.txt)
-[Node-Red Fav Button Control](node-red_fav_btn.txt)
+
+    >[Node-Red Code](node-red_main.txt)
+
+    >[Node-Red Fav Button Control Part](node-red_fav_btn.txt)
 
 
 4. Add buttons to your Lovelace page.
