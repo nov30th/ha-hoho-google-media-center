@@ -57,6 +57,7 @@ Your local folder should looks like this:
     Favorite Song|input_boolean.favorite_song|Toggle
     Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
     Music Time|input_boolean.music_time|Toggle
+    Delete Song|input_boolean.delete_song|Toggle
 
 2. Install node-red palettes
 
