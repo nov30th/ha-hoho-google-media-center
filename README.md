@@ -54,11 +54,11 @@ Your local folder should looks like this:
 
     Name|Entity ID|Type|Options|Icon
     ---|---|---|---|---
-    Favorite Song|input_boolean.favorite_song|Toggle|hass:heart
+    Favorite Song|input_boolean.favorite_song|Toggle||hass:heart
     Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
-    Music Time|input_boolean.music_time|Toggle|hass:music
-    Delete Song|input_boolean.delete_song|Toggle|hass:delete
-    Shuffle Music|input_boolean.shuffle_music|Toggle|mdi:shuffle-variant
+    Music Time|input_boolean.music_time|Toggle||hass:music
+    Delete Song|input_boolean.delete_song|Toggle||hass:delete
+    Shuffle Music|input_boolean.shuffle_music|Toggle||mdi:shuffle-variant
 
 2. Install node-red palettes
 
