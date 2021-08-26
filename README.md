@@ -53,7 +53,7 @@ Your local folder should looks like this:
 1. Create the below input entity in your HA -> Configuration -> Helpers.
 
     Name|Entity ID|Type|Options|Icon
-    ---|---|---|---
+    ---|---|---|---|---
     Favorite Song|input_boolean.favorite_song|Toggle|hass:heart
     Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
     Music Time|input_boolean.music_time|Toggle|hass:music
