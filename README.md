@@ -74,11 +74,6 @@ Your local folder should looks like this:
 
     >[Node-Red Code](node-red_main.txt)
 
-    >[Node-Red Fav Button Control Part](node-red_fav_btn.txt)
-
-    >[Node-Red Delete Song Button Part](node-red_delete_music_btn.txt)
-
-
 4. Add buttons to your Lovelace page.
 
     ![lovelace](images/buttons.png)
