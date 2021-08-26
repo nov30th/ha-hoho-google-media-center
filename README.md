@@ -11,8 +11,8 @@ Homemade music centre via Chromecast with node-red in Homeassistant.
 
 ## Features
 
-- Shuffling music / Stop playing to Google Home / Nest by toggle the music_time button.
-- Shuffling music / Stop playing by telling Google Home / Nest to turn on/off "Music Time" (google_assistant linked with HA required).
+- Ordered playing / Shuffling music / Stop playing to Google Home / Nest by toggle the music_time button.
+- Ordered playing / Shuffling music / Stop playing by telling Google Home / Nest to turn on/off "Music Time" (google_assistant linked with HA required).
 - Stop the music playing (e.g "Hey Google, Stop") to media_player will stop shuffling music automatically.
 - Play the next song by simply calling service media_player.media_stop.
 - Music can be played with different playlists.
@@ -52,12 +52,13 @@ Your local folder should looks like this:
 
 1. Create the below input entity in your HA -> Configuration -> Helpers.
 
-    Name|Entity ID|Type|Options
+    Name|Entity ID|Type|Options|Icon
     ---|---|---|---
-    Favorite Song|input_boolean.favorite_song|Toggle
+    Favorite Song|input_boolean.favorite_song|Toggle|hass:heart
     Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
-    Music Time|input_boolean.music_time|Toggle
-    Delete Song|input_boolean.delete_song|Toggle
+    Music Time|input_boolean.music_time|Toggle|hass:music
+    Delete Song|input_boolean.delete_song|Toggle|hass:delete
+    Shuffle Music|input_boolean.shuffle_music|Toggle|mdi:shuffle-variant
 
 2. Install node-red palettes
 
@@ -118,6 +119,7 @@ Your local folder should looks like this:
     file_exts_filter|file types
     msg.fix_ha_media_player|Whether fixes the issue of HA media_player
     msg.rich_info_support|Whether read the metadata in music file push to media_player instead of filenames.
+    msg.reset_ordered_index_once_stop_playing|Whether reset to 1st song on next playing if you turned the music off (non-shuffle mode)
 
 ## Enjoy the powerful node-red and this content.
 

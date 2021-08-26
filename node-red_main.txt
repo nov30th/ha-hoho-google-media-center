@@ -1,21 +1,10 @@
 [
     {
-        "id": "58ff70b9.a6b58",
-        "type": "random-item",
-        "z": "13ac7585.18210a",
-        "name": "",
-        "input": "payload",
-        "inputType": "msg",
-        "output": "payload",
-        "outputType": "msg",
-        "number": "20",
-        "x": 1170,
-        "y": 80,
-        "wires": [
-            [
-                "143859dc.b68516"
-            ]
-        ]
+        "id": "13ac7585.18210a",
+        "type": "tab",
+        "label": "media player",
+        "disabled": false,
+        "info": ""
     },
     {
         "id": "a1220b1d.bf98d8",
@@ -23,7 +12,7 @@
         "z": "13ac7585.18210a",
         "name": "",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 3,
         "debugenabled": false,
         "service_domain": "media_player",
         "service": "play_media",
@@ -31,9 +20,9 @@
         "data": "post_data",
         "dataType": "jsonata",
         "mergecontext": "",
-        "output_location": "",
-        "output_location_type": "none",
         "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
         "x": 2710,
         "y": 440,
         "wires": [
@@ -45,11 +34,12 @@
         "type": "function",
         "z": "13ac7585.18210a",
         "name": "deal with url",
-        "func": "file_name = \"\";\nfile_names = msg.payload;\nif (!Array.isArray(file_names))\n    file_names = new Array(file_names);\nif (file_names.length < 20 || global.get(\"hohoFavoriteSong\") == undefined){\n    file_name = file_names[0];\n    msg.played = [];\n}else{\n    i = 0;\n    data = global.get(\"hohoFavoriteSong\");\n    msg.played = data.played;\n    for(i = 0; i < file_names.length; i++){\n        file_name = file_names[i];\n        if (msg.played.includes(file_name))\n            continue;\n        msg.played.push(file_name);\n        break;\n    }\n    if (i >= file_names.length){\n        msg.played = [];\n    }\n}\nfile_name = file_name.replace(msg.playlist_path,\"\");\n//msg.local_file_name = file_name;\nmsg.filename = msg.playlist_path + file_name;\nmsg.pure_file_name = msg.filename.split(\"/\").pop();\nsong_title = msg.pure_file_name;\nmsg.file_exts.forEach(ext=>song_title=song_title.replace(ext,\"\"))\nmedia_file_name = \"/media/\" + msg.playlist_path.replace(\n    msg.media_root_path,\n    msg.media_root_name)\n    + file_name;\nmsg.file_name = file_name;\nmsg.song_title = song_title;\nmsg.post_data = {\"media_content_id\":media_file_name,\"media_content_type\":\"audio/mp3\"}\nmsg.post_data[\"extra\"] ={\"metadata\": {\"metadataType\":3,\"title\":song_title}}\nglobal.set(\"hohoFavoriteSong\",msg);\nreturn msg;",
+        "func": "file_name = \"\";\nfile_names = msg.payload;\nif (!Array.isArray(file_names))\n    file_names = new Array(file_names);\n\nif (msg.shuffle_music==\"on\"){\n    if (file_names.length < 20 || global.get(\"hohoFavoriteSong\") == undefined){\n        file_name = file_names[0];\n        msg.played = [];\n    }else{\n        i = 0;\n        data = global.get(\"hohoFavoriteSong\");\n        if (data.played == undefined)\n            msg.played = [];\n        else\n            msg.played = data.played;\n        // node.warn(msg.played);\n        for(i = 0; i < file_names.length; i++){\n            file_name = file_names[i];\n            if (msg.played.includes(file_name))\n                continue;\n            msg.played.push(file_name);\n            break;\n        }\n        if (i >= file_names.length){\n            msg.played = [];\n        }\n    }\n}else{\n    if (file_names.length <= msg.current_file_index_of_ordered)\n        msg.current_file_index_of_ordered = 0;\n    file_name = file_names[msg.current_file_index_of_ordered];\n}\nfile_name = file_name.replace(msg.playlist_path,\"\");\n//msg.local_file_name = file_name;\nmsg.filename = msg.playlist_path + file_name;\nmsg.pure_file_name = msg.filename.split(\"/\").pop();\nsong_title = msg.pure_file_name;\nmsg.file_exts.forEach(ext=>song_title=song_title.replace(ext,\"\"))\nmedia_file_name = \"/media/\" + msg.playlist_path.replace(\n    msg.media_root_path,\n    msg.media_root_name)\n    + file_name;\nmsg.file_name = file_name;\nmsg.song_title = song_title;\nmsg.post_data = {\"media_content_id\":media_file_name,\"media_content_type\":\"audio/mp3\"}\nmsg.post_data[\"extra\"] ={\"metadata\": {\"metadataType\":3,\"title\":song_title}}\nglobal.set(\"hohoFavoriteSong\",msg);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
+        "libs": [],
         "x": 1350,
         "y": 80,
         "wires": [
@@ -64,7 +54,7 @@
         "z": "13ac7585.18210a",
         "name": "media player device",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 3,
         "exposeToHomeAssistant": false,
         "haConfig": [
             {
@@ -93,6 +83,26 @@
         "ignorePrevStateUnavailable": false,
         "ignoreCurrentStateUnknown": false,
         "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
         "x": 170,
         "y": 320,
         "wires": [
@@ -112,19 +122,28 @@
         "z": "13ac7585.18210a",
         "name": "Check music time button state",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 2,
         "outputs": 2,
         "halt_if": "on",
         "halt_if_type": "str",
         "halt_if_compare": "is",
-        "override_topic": false,
         "entity_id": "input_boolean.music_time",
         "state_type": "str",
-        "state_location": "payload",
-        "override_payload": "msg",
-        "entity_location": "data",
-        "override_data": "msg",
         "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
         "x": 210,
         "y": 220,
         "wires": [
@@ -140,7 +159,7 @@
         "z": "13ac7585.18210a",
         "name": "music time button state",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 3,
         "exposeToHomeAssistant": false,
         "haConfig": [
             {
@@ -169,17 +188,35 @@
         "ignorePrevStateUnavailable": false,
         "ignoreCurrentStateUnknown": false,
         "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
         "x": 180,
         "y": 460,
         "wires": [
             [
                 "d0b8c29b.4f194",
-                "d843e68c.f24a38",
                 "acde7d7d.fc4ab"
             ],
             [
-                "79e1fcf2.fdd3c4",
-                "d843e68c.f24a38"
+                "79e1fcf2.fdd3c4"
             ]
         ]
     },
@@ -189,7 +226,7 @@
         "z": "13ac7585.18210a",
         "name": "",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 3,
         "debugenabled": false,
         "service_domain": "media_player",
         "service": "turn_off",
@@ -197,13 +234,15 @@
         "data": "",
         "dataType": "jsonata",
         "mergecontext": "",
-        "output_location": "",
-        "output_location_type": "none",
         "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
         "x": 200,
         "y": 580,
         "wires": [
-            []
+            [
+                "6eddfc88cd9b2183"
+            ]
         ]
     },
     {
@@ -212,7 +251,7 @@
         "z": "13ac7585.18210a",
         "name": "off music",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 3,
         "debugenabled": false,
         "service_domain": "input_boolean",
         "service": "turn_off",
@@ -220,13 +259,15 @@
         "data": "",
         "dataType": "jsonata",
         "mergecontext": "",
-        "output_location": "",
-        "output_location_type": "none",
         "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
         "x": 780,
         "y": 320,
         "wires": [
-            []
+            [
+                "fdc644952ed43f4a"
+            ]
         ]
     },
     {
@@ -235,25 +276,117 @@
         "z": "13ac7585.18210a",
         "name": "load playlist",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 2,
         "outputs": 1,
         "halt_if": "",
         "halt_if_type": "str",
         "halt_if_compare": "is",
-        "override_topic": false,
         "entity_id": "input_select.music_playlist",
         "state_type": "str",
-        "state_location": "payload",
-        "override_payload": "msg",
-        "entity_location": "data",
-        "override_data": "msg",
         "blockInputOverrides": false,
-        "x": 590,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "x": 470,
         "y": 80,
         "wires": [
             [
-                "40412deb.dc30c4"
+                "7754cb632cf7fb6d"
             ]
+        ]
+    },
+    {
+        "id": "51c126bf.dcea28",
+        "type": "server-state-changed",
+        "z": "13ac7585.18210a",
+        "name": "favorite song button state",
+        "server": "f25fc2a7.50d81",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_boolean.favorite_song",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 1,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 190,
+        "y": 680,
+        "wires": [
+            [
+                "89eb5dc0.898a2"
+            ]
+        ]
+    },
+    {
+        "id": "89eb5dc0.898a2",
+        "type": "function",
+        "z": "13ac7585.18210a",
+        "name": "check",
+        "func": "\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return [null,null];\n}\ndata.set_fav = msg.payload;\nreturn [data,null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 130,
+        "y": 740,
+        "wires": [
+            [
+                "44dc0761.893fd8"
+            ],
+            []
         ]
     },
     {
@@ -261,12 +394,13 @@
         "type": "function",
         "z": "13ac7585.18210a",
         "name": "PLAYLIST mapping",
-        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path with fav button working.\n\n//============THE CONFIG AREA=============\n\n//For Robert and someone who has different mounting point\n//e.g. if you have \"music: /config/media\" in \"media_dirs:\", put it here\n//one media_dirs mapping only\none_media_dirs_in_ha_conf = \"music: /config/media\"\n\n//The playlist path mapping, you can edit them to yours.\n//values are relative path under the one_media_dirs_in_ha_conf\n//e.g. I have /config/media/mp3/ and /config/media/favorite_mp3/\n//Make sure the key name exists in input_select.music_playlist\n\nplaylist_mapping = {\n    \"Mp3\":\"mp3/\",\n    \"My Favorite\":\"favorite_mp3/\",\n};\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"https[OR HTTP]://[YOUR HA DOMAIN OR IP]/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\",\"flac\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n//============END CONFIG AREA=============\n\n\n\nObject.map = function(o, f, ctx) {\n    ctx = ctx || this;\n    var result = {};\n    Object.keys(o).forEach(function(k) {\n        result[k] = f.call(ctx, o[k], k, o); \n    });\n    return result;\n}\n\none_media_dirs_in_ha_conf = one_media_dirs_in_ha_conf.replace(\" \",\"\").split(':');\nmsg.media_root_name = one_media_dirs_in_ha_conf[0];\nmsg.media_root_path = one_media_dirs_in_ha_conf[1];\nplaylist_mapping = Object.map(playlist_mapping, function(v, k, playlist_mapping) {\n     return msg.media_root_path + '/' + v;\n  });\n// msg.playlist_mapping = playlist_mapping.map((key,value)=>value=media_root_path+value);\npath = playlist_mapping[msg.payload];\nmsg.playlist_mapping = playlist_mapping;\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
+        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path with fav button working.\n\n//============THE CONFIG AREA=============\n\n//For Robert and someone who has different mounting point\n//e.g. if you have \"music: /config/media\" in \"media_dirs:\", put it here\n//one media_dirs mapping only\none_media_dirs_in_ha_conf = \"music: /config/media\"\n\n//The playlist path mapping, you can edit them to yours.\n//values are relative path under the one_media_dirs_in_ha_conf\n//e.g. I have /config/media/mp3/ and /config/media/favorite_mp3/\n//Make sure the key name exists in input_select.music_playlist\n\nplaylist_mapping = {\n    \"Mp3\":\"mp3/\",\n    \"My Favorite\":\"favorite_mp3/\",\n    \"Old\":\"old/\",\n    \"Video\":\"video/\",\n    \"Migu\":\"migu/\"\n    \n};\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"https://[YOUR HA DOMAIN]:[YOUR HA PORT]/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\",\"flac\",\"flv\",\"mp4\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n//Whether reset to 1st song on next playing if you turned the music off (non-shuffle mode)\nmsg.reset_ordered_index_once_stop_playing = true;\n//============END CONFIG AREA=============\n\n\n\nObject.map = function(o, f, ctx) {\n    ctx = ctx || this;\n    var result = {};\n    Object.keys(o).forEach(function(k) {\n        result[k] = f.call(ctx, o[k], k, o); \n    });\n    return result;\n}\n\none_media_dirs_in_ha_conf = one_media_dirs_in_ha_conf.replace(\" \",\"\").split(':');\nmsg.media_root_name = one_media_dirs_in_ha_conf[0];\nmsg.media_root_path = one_media_dirs_in_ha_conf[1];\nplaylist_mapping = Object.map(playlist_mapping, function(v, k, playlist_mapping) {\n     return msg.media_root_path + '/' + v;\n  });\n// msg.playlist_mapping = playlist_mapping.map((key,value)=>value=media_root_path+value);\npath = playlist_mapping[msg.payload];\nmsg.playlist_mapping = playlist_mapping;\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 770,
+        "libs": [],
+        "x": 930,
         "y": 80,
         "wires": [
             [
@@ -303,7 +437,7 @@
         "z": "13ac7585.18210a",
         "name": "fav button on",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 3,
         "debugenabled": false,
         "service_domain": "input_boolean",
         "service": "turn_on",
@@ -311,9 +445,9 @@
         "data": "",
         "dataType": "jsonata",
         "mergecontext": "",
-        "output_location": "",
-        "output_location_type": "none",
         "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
         "x": 2430,
         "y": 280,
         "wires": [
@@ -328,7 +462,7 @@
         "z": "13ac7585.18210a",
         "name": "fav button off",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 3,
         "debugenabled": false,
         "service_domain": "input_boolean",
         "service": "turn_off",
@@ -336,15 +470,163 @@
         "data": "",
         "dataType": "jsonata",
         "mergecontext": "",
-        "output_location": "",
-        "output_location_type": "none",
         "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
         "x": 2430,
         "y": 340,
         "wires": [
             [
                 "a1220b1d.bf98d8"
             ]
+        ]
+    },
+    {
+        "id": "44dc0761.893fd8",
+        "type": "api-current-state",
+        "z": "13ac7585.18210a",
+        "name": "only playing",
+        "server": "f25fc2a7.50d81",
+        "version": 2,
+        "outputs": 2,
+        "halt_if": "playing",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "media_player.home_group",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "media_state",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "media_data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "x": 290,
+        "y": 740,
+        "wires": [
+            [
+                "bf0b29c2.989458"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b794607c.368ff",
+        "type": "fs-ops-delete",
+        "z": "13ac7585.18210a",
+        "name": "",
+        "path": "playlist_mapping[\"My Favorite\"]",
+        "pathType": "msg",
+        "filename": "pure_file_name",
+        "filenameType": "msg",
+        "x": 330,
+        "y": 940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bf0b29c2.989458",
+        "type": "switch",
+        "z": "13ac7585.18210a",
+        "name": "copy or delete",
+        "property": "set_fav",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 160,
+        "y": 820,
+        "wires": [
+            [
+                "63d31658.fd04a8"
+            ],
+            [
+                "c4f81d55.595be"
+            ]
+        ]
+    },
+    {
+        "id": "63d31658.fd04a8",
+        "type": "fs-ops-access",
+        "z": "13ac7585.18210a",
+        "name": "is fav file exists",
+        "path": "playlist_mapping[\"My Favorite\"]",
+        "pathType": "msg",
+        "filename": "pure_file_name",
+        "filenameType": "msg",
+        "read": true,
+        "write": false,
+        "throwerror": false,
+        "x": 160,
+        "y": 880,
+        "wires": [
+            [],
+            [
+                "9128b2f4.04a31"
+            ]
+        ]
+    },
+    {
+        "id": "9128b2f4.04a31",
+        "type": "fs-ops-copy",
+        "z": "13ac7585.18210a",
+        "name": "copy to fav folder",
+        "sourcePath": "playlist_path",
+        "sourcePathType": "msg",
+        "sourceFilename": "file_name",
+        "sourceFilenameType": "msg",
+        "destPath": "playlist_mapping[\"My Favorite\"]",
+        "destPathType": "msg",
+        "destFilename": "pure_file_name",
+        "destFilenameType": "msg",
+        "link": false,
+        "overwrite": true,
+        "x": 350,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c4f81d55.595be",
+        "type": "fs-ops-access",
+        "z": "13ac7585.18210a",
+        "name": "is fav file exists",
+        "path": "playlist_mapping[\"My Favorite\"]",
+        "pathType": "msg",
+        "filename": "pure_file_name",
+        "filenameType": "msg",
+        "read": true,
+        "write": false,
+        "throwerror": false,
+        "x": 160,
+        "y": 940,
+        "wires": [
+            [
+                "b794607c.368ff"
+            ],
+            []
         ]
     },
     {
@@ -528,11 +810,11 @@
         "depth": "5",
         "stat": false,
         "showWarnings": true,
-        "x": 1000,
-        "y": 80,
+        "x": 920,
+        "y": 120,
         "wires": [
             [
-                "58ff70b9.a6b58"
+                "16099e1165f1fd75"
             ]
         ]
     },
@@ -561,8 +843,7 @@
                 "7b2ec18b.535d5"
             ],
             [
-                "a1220b1d.bf98d8",
-                "4374fd33.f4ea24"
+                "a1220b1d.bf98d8"
             ]
         ]
     },
@@ -572,19 +853,28 @@
         "z": "13ac7585.18210a",
         "name": "if media player is playing",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 2,
         "outputs": 2,
         "halt_if": "playing",
         "halt_if_type": "str",
         "halt_if_compare": "is",
-        "override_topic": false,
         "entity_id": "media_player.home_group",
         "state_type": "str",
-        "state_location": "payload",
-        "override_payload": "msg",
-        "entity_location": "data",
-        "override_data": "msg",
         "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
         "x": 190,
         "y": 520,
         "wires": [
@@ -600,19 +890,28 @@
         "z": "13ac7585.18210a",
         "name": "button is on?",
         "server": "f25fc2a7.50d81",
-        "version": 1,
+        "version": 2,
         "outputs": 2,
         "halt_if": "on",
         "halt_if_type": "str",
         "halt_if_compare": "is",
-        "override_topic": false,
         "entity_id": "input_boolean.music_time",
         "state_type": "str",
-        "state_location": "payload",
-        "override_payload": "msg",
-        "entity_location": "data",
-        "override_data": "msg",
         "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
         "x": 630,
         "y": 320,
         "wires": [
@@ -694,8 +993,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 420,
-        "y": 220,
+        "x": 430,
+        "y": 400,
         "wires": []
     },
     {
@@ -741,6 +1040,7 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
+        "libs": [],
         "x": 450,
         "y": 460,
         "wires": [
@@ -796,7 +1096,225 @@
         ]
     },
     {
-        "id": "4374fd33.f4ea24",
+        "id": "66bb0811.8386b8",
+        "type": "server-state-changed",
+        "z": "13ac7585.18210a",
+        "name": "delete song button state",
+        "server": "f25fc2a7.50d81",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_boolean.delete_song",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 2,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 630,
+        "y": 680,
+        "wires": [
+            [
+                "c2fdb6d.8efb948"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c2fdb6d.8efb948",
+        "type": "function",
+        "z": "13ac7585.18210a",
+        "name": "check",
+        "func": "\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return [null,null];\n}\nreturn [data,null];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 570,
+        "y": 740,
+        "wires": [
+            [
+                "ca2c2541.a75ab8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ca2c2541.a75ab8",
+        "type": "api-current-state",
+        "z": "13ac7585.18210a",
+        "name": "only playing",
+        "server": "f25fc2a7.50d81",
+        "version": 2,
+        "outputs": 2,
+        "halt_if": "playing",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "media_player.home_group",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "media_state",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "media_data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "x": 730,
+        "y": 740,
+        "wires": [
+            [
+                "84764267.cd158"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "84764267.cd158",
+        "type": "fs-ops-delete",
+        "z": "13ac7585.18210a",
+        "name": "",
+        "path": "playlist_path",
+        "pathType": "msg",
+        "filename": "file_name",
+        "filenameType": "msg",
+        "x": 590,
+        "y": 800,
+        "wires": [
+            [
+                "2da81035.6806d"
+            ]
+        ]
+    },
+    {
+        "id": "2da81035.6806d",
+        "type": "api-call-service",
+        "z": "13ac7585.18210a",
+        "name": "",
+        "server": "f25fc2a7.50d81",
+        "version": 3,
+        "debugenabled": false,
+        "service_domain": "input_boolean",
+        "service": "turn_off",
+        "entityId": "input_boolean.delete_song",
+        "data": "",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 820,
+        "y": 800,
+        "wires": [
+            [
+                "d0b8c29b.4f194"
+            ]
+        ]
+    },
+    {
+        "id": "58ff70b9.a6b58",
+        "type": "random-item",
+        "z": "13ac7585.18210a",
+        "name": "",
+        "input": "payload",
+        "inputType": "msg",
+        "output": "payload",
+        "outputType": "msg",
+        "number": "20",
+        "x": 1170,
+        "y": 80,
+        "wires": [
+            [
+                "143859dc.b68516"
+            ]
+        ]
+    },
+    {
+        "id": "16099e1165f1fd75",
+        "type": "api-current-state",
+        "z": "13ac7585.18210a",
+        "name": "is shuffle_music",
+        "server": "f25fc2a7.50d81",
+        "version": 2,
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "input_boolean.shuffle_music",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "shuffle_music",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 940,
+        "y": 180,
+        "wires": [
+            [
+                "58ff70b9.a6b58"
+            ],
+            [
+                "143859dc.b68516"
+            ]
+        ]
+    },
+    {
+        "id": "a0308711d66e4646",
         "type": "debug",
         "z": "13ac7585.18210a",
         "name": "",
@@ -808,13 +1326,120 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2010,
-        "y": 540,
+        "x": 1150,
+        "y": 320,
         "wires": []
+    },
+    {
+        "id": "fdc644952ed43f4a",
+        "type": "function",
+        "z": "13ac7585.18210a",
+        "name": "set current ordered song index to top",
+        "func": "//delete this node if you don't want the ordered song playing be\n//reset to the first one once stop playing.\n\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return null;\n}\nif (msg.reset_ordered_index_once_stop_playing==false)\n    return data;\ndata.current_file_index_of_ordered = -1;\nnode.warn(\"reset index\");\nglobal.set(\"hohoFavoriteSong\",data);\nreturn data;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6eddfc88cd9b2183",
+        "type": "function",
+        "z": "13ac7585.18210a",
+        "name": "set current ordered song index to top",
+        "func": "\n\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return null;\n}\nif (msg.reset_ordered_index_once_stop_playing==false)\n    return data;\ndata.current_file_index_of_ordered = -1;\nnode.warn(\"reset index\");\nglobal.set(\"hohoFavoriteSong\",data);\nreturn data;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 580,
+        "wires": [
+            [
+                "a0308711d66e4646"
+            ]
+        ]
+    },
+    {
+        "id": "7754cb632cf7fb6d",
+        "type": "function",
+        "z": "13ac7585.18210a",
+        "name": "increase ordered song playing index",
+        "func": "var data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    data = {};\n    node.warn(\"data is null\");\n    data.current_file_index_of_ordered = -1;\n}else{\n    if (data.current_file_index_of_ordered === undefined ||\n    data.current_file_index_of_ordered === null\n    ){\n        node.warn(\"current_file_index_of_ordered is null\");\n        data.current_file_index_of_ordered = -1;\n    }\n    else{\n        node.warn(data.current_file_index_of_ordered);\n        data.current_file_index_of_ordered++;\n    }\n}\n// global.set(\"hohoFavoriteSong\",data);\nmsg.current_file_index_of_ordered = data.current_file_index_of_ordered;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 140,
+        "wires": [
+            [
+                "40412deb.dc30c4"
+            ]
+        ]
+    },
+    {
+        "id": "cc9a3c43bb32d13a",
+        "type": "inject",
+        "z": "13ac7585.18210a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 660,
+        "y": 980,
+        "wires": [
+            [
+                "0f54651688d68e53"
+            ]
+        ]
+    },
+    {
+        "id": "0f54651688d68e53",
+        "type": "function",
+        "z": "13ac7585.18210a",
+        "name": "set hohoFavoriteSong null",
+        "func": "\nglobal.set(\"hohoFavoriteSong\",undefined);",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 980,
+        "wires": [
+            [],
+            []
+        ]
     },
     {
         "id": "f25fc2a7.50d81",
         "type": "server",
-        "name": "Home Assistant"
+        "name": "Home Assistant",
+        "version": 1,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true
     }
 ]
