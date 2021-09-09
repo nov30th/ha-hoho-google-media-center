@@ -14,6 +14,7 @@ Homemade music centre via Chromecast with node-red in Homeassistant.
 - Ordered playing / Shuffling music / Stop playing to Google Home / Nest by toggle the music_time button.
 - Ordered playing / Shuffling music / Stop playing by telling Google Home / Nest to turn on/off "Music Time" (google_assistant linked with HA required).
 - Stop the music playing (e.g "Hey Google, Stop") to media_player will stop shuffling music automatically.
+- Loads the music folder into playlist automatically.
 - Play the next song by simply calling service media_player.media_stop.
 - Music can be played with different playlists.
 - Favorite songs can be added or delete by press the Favorite button.
@@ -48,6 +49,8 @@ Your local folder should looks like this:
 ```
 > I mounted the folder (/config/media) [rw] from my SMB server, as you could easily create this folder if disk space is not a problem.
 
+> By default, please have mp3 and favorite_mp3 two folders created.
+
 ## Setup
 
 1. Create the below input entity in your HA -> Configuration -> Helpers.
@@ -59,6 +62,7 @@ Your local folder should looks like this:
     Music Time|input_boolean.music_time|Toggle||hass:music
     Delete Song|input_boolean.delete_song|Toggle||hass:delete
     Shuffle Music|input_boolean.shuffle_music|Toggle||mdi:shuffle-variant
+    Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
 
 2. Install node-red palettes
 
@@ -108,7 +112,7 @@ Your local folder should looks like this:
     Var|Meaning
     ---|---
     one_media_dirs_in_ha_conf|For Robert and someone who has different mounting point in media_dirs
-    playlist_mapping|Mapping the input_select.music_playlist items to your local folder
+    playlist_mapping|Mapping the input_select.music_playlist items to your local folder, you could ignore this after v5 version and use the "reload playlist" button.
     msg.album_cover_temp_file|Music album cover image tempuary file
     msg.album_cover_temp_url|The URL of album_cover_temp_file, DOMAIN could be ip address.
     file_exts_filter|file types

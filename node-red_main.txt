@@ -1,15 +1,15 @@
 [
     {
-        "id": "13ac7585.18210a",
+        "id": "be703e854ac6545d",
         "type": "tab",
         "label": "media player",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "a1220b1d.bf98d8",
+        "id": "256f8b172c5f0b76",
         "type": "api-call-service",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -30,9 +30,9 @@
         ]
     },
     {
-        "id": "143859dc.b68516",
+        "id": "48a10149c18a1bd2",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "deal with url",
         "func": "file_name = \"\";\nfile_names = msg.payload;\nif (!Array.isArray(file_names))\n    file_names = new Array(file_names);\n\nif (msg.shuffle_music==\"on\"){\n    if (file_names.length < 20 || global.get(\"hohoFavoriteSong\") == undefined){\n        file_name = file_names[0];\n        msg.played = [];\n    }else{\n        i = 0;\n        data = global.get(\"hohoFavoriteSong\");\n        if (data.played == undefined)\n            msg.played = [];\n        else\n            msg.played = data.played;\n        // node.warn(msg.played);\n        for(i = 0; i < file_names.length; i++){\n            file_name = file_names[i];\n            if (msg.played.includes(file_name))\n                continue;\n            msg.played.push(file_name);\n            break;\n        }\n        if (i >= file_names.length){\n            msg.played = [];\n        }\n    }\n}else{\n    if (file_names.length <= msg.current_file_index_of_ordered)\n        msg.current_file_index_of_ordered = 0;\n    file_name = file_names[msg.current_file_index_of_ordered];\n}\nfile_name = file_name.replace(msg.playlist_path,\"\");\n//msg.local_file_name = file_name;\nmsg.filename = msg.playlist_path + file_name;\nmsg.pure_file_name = msg.filename.split(\"/\").pop();\nsong_title = msg.pure_file_name;\nmsg.file_exts.forEach(ext=>song_title=song_title.replace(ext,\"\"))\nmedia_file_name = \"/media/\" + msg.playlist_path.replace(\n    msg.media_root_path,\n    msg.media_root_name)\n    + file_name;\nmsg.file_name = file_name;\nmsg.song_title = song_title;\nmsg.post_data = {\"media_content_id\":media_file_name,\"media_content_type\":\"audio/mp3\"}\nmsg.post_data[\"extra\"] ={\"metadata\": {\"metadataType\":3,\"title\":song_title}}\nglobal.set(\"hohoFavoriteSong\",msg);\nreturn msg;",
         "outputs": 1,
@@ -44,14 +44,14 @@
         "y": 80,
         "wires": [
             [
-                "e0e8e448.a65c98"
+                "4b87d8b8dda6899e"
             ]
         ]
     },
     {
-        "id": "3c129312.d5241c",
+        "id": "df5165b581d0a394",
         "type": "server-state-changed",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "media player device",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -107,19 +107,17 @@
         "y": 320,
         "wires": [
             [
-                "d843e68c.f24a38",
-                "7413df63.0ef85"
+                "7f6498a055bb8fdc"
             ],
             [
-                "d843e68c.f24a38",
-                "f8166d46.7ad51"
+                "abdab12e2a12b39f"
             ]
         ]
     },
     {
-        "id": "f4ccfdb9.d779d",
+        "id": "bc536ad1c428060c",
         "type": "api-current-state",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "Check music time button state",
         "server": "f25fc2a7.50d81",
         "version": 2,
@@ -148,15 +146,15 @@
         "y": 220,
         "wires": [
             [
-                "d0b8c29b.4f194"
+                "ce56a7eea9d35a52"
             ],
             []
         ]
     },
     {
-        "id": "49b79303.897c5c",
+        "id": "5e1f662e77b854b7",
         "type": "server-state-changed",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "music time button state",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -212,18 +210,18 @@
         "y": 460,
         "wires": [
             [
-                "d0b8c29b.4f194",
-                "acde7d7d.fc4ab"
+                "ce56a7eea9d35a52",
+                "655769d95e7fd455"
             ],
             [
-                "79e1fcf2.fdd3c4"
+                "40f3d4ee608dd037"
             ]
         ]
     },
     {
-        "id": "52d23ddf.ff4954",
+        "id": "aca5336f3c30a954",
         "type": "api-call-service",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -241,14 +239,14 @@
         "y": 580,
         "wires": [
             [
-                "6eddfc88cd9b2183"
+                "bc33a6e6331642f2"
             ]
         ]
     },
     {
-        "id": "a232d975.043968",
+        "id": "14a54302eff9916f",
         "type": "api-call-service",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "off music",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -266,14 +264,14 @@
         "y": 320,
         "wires": [
             [
-                "fdc644952ed43f4a"
+                "6c8abb784eba0764"
             ]
         ]
     },
     {
-        "id": "d0b8c29b.4f194",
+        "id": "ce56a7eea9d35a52",
         "type": "api-current-state",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "load playlist",
         "server": "f25fc2a7.50d81",
         "version": 2,
@@ -298,18 +296,18 @@
                 "valueType": "entity"
             }
         ],
-        "x": 470,
-        "y": 80,
+        "x": 190,
+        "y": 140,
         "wires": [
             [
-                "7754cb632cf7fb6d"
+                "a5434193281467c4"
             ]
         ]
     },
     {
-        "id": "51c126bf.dcea28",
+        "id": "3e5c8bbc832dc48e",
         "type": "server-state-changed",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "favorite song button state",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -365,14 +363,14 @@
         "y": 680,
         "wires": [
             [
-                "89eb5dc0.898a2"
+                "f5da266145d7ea5e"
             ]
         ]
     },
     {
-        "id": "89eb5dc0.898a2",
+        "id": "f5da266145d7ea5e",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "check",
         "func": "\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return [null,null];\n}\ndata.set_fav = msg.payload;\nreturn [data,null];",
         "outputs": 2,
@@ -384,34 +382,34 @@
         "y": 740,
         "wires": [
             [
-                "44dc0761.893fd8"
+                "5c70d0cfb4ba3ae8"
             ],
             []
         ]
     },
     {
-        "id": "40412deb.dc30c4",
+        "id": "a8785f09ced07bb7",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "PLAYLIST mapping",
-        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path with fav button working.\n\n//============THE CONFIG AREA=============\n\n//For Robert and someone who has different mounting point\n//e.g. if you have \"music: /config/media\" in \"media_dirs:\", put it here\n//one media_dirs mapping only\none_media_dirs_in_ha_conf = \"music: /config/media\"\n\n//The playlist path mapping, you can edit them to yours.\n//values are relative path under the one_media_dirs_in_ha_conf\n//e.g. I have /config/media/mp3/ and /config/media/favorite_mp3/\n//Make sure the key name exists in input_select.music_playlist\n\nplaylist_mapping = {\n    \"Mp3\":\"mp3/\",\n    \"My Favorite\":\"favorite_mp3/\",\n    \"Old\":\"old/\",\n    \"Video\":\"video/\",\n    \"Migu\":\"migu/\"\n    \n};\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"https://[YOUR HA DOMAIN]:[YOUR HA PORT]/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\",\"flac\",\"flv\",\"mp4\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n//Whether reset to 1st song on next playing if you turned the music off (non-shuffle mode)\nmsg.reset_ordered_index_once_stop_playing = true;\n//============END CONFIG AREA=============\n\n\n\nObject.map = function(o, f, ctx) {\n    ctx = ctx || this;\n    var result = {};\n    Object.keys(o).forEach(function(k) {\n        result[k] = f.call(ctx, o[k], k, o); \n    });\n    return result;\n}\n\none_media_dirs_in_ha_conf = one_media_dirs_in_ha_conf.replace(\" \",\"\").split(':');\nmsg.media_root_name = one_media_dirs_in_ha_conf[0];\nmsg.media_root_path = one_media_dirs_in_ha_conf[1];\nplaylist_mapping = Object.map(playlist_mapping, function(v, k, playlist_mapping) {\n     return msg.media_root_path + '/' + v;\n  });\n// msg.playlist_mapping = playlist_mapping.map((key,value)=>value=media_root_path+value);\npath = playlist_mapping[msg.payload];\nmsg.playlist_mapping = playlist_mapping;\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
+        "func": "//***********************\n//Made by HOHO``(Nov30th) \n//Github: https://github.com/nov30th/ha-hoho-google-media-center\n//***********************\n\n//You can now fully edit the mapping list,\n//also can remove the \"My Favorite\" if you don't want this feature,\n//otherwise you need to keep \"My Favorite\" with an exist write accessible path with fav button working.\n\n//============THE CONFIG AREA=============\n\n//For Robert and someone who has different mounting point\n//e.g. if you have \"music: /config/media\" in \"media_dirs:\", put it here\n//one media_dirs mapping only\none_media_dirs_in_ha_conf = \"music: /config/media\"\n\n//The playlist path mapping, you can edit them to yours.\n//values are relative path under the one_media_dirs_in_ha_conf\n//e.g. I have /config/media/mp3/ and /config/media/favorite_mp3/\n//Make sure the key name exists in input_select.music_playlist\n\n//THIS VERSION YOU COULD IGNORE THIS PLAYLIST AND USE RELOAD PLAYLIST BUTTON.\nplaylist_mapping = {\n    \"Mp3\":\"mp3/\",\n    \"My Favorite\":\"favorite_mp3/\"\n};\n\n//Temp album cover file location\nmsg.album_cover_temp_file = \"/config/www/album_cover_temp.jpg\";\n//The URL of album cover file\nmsg.album_cover_temp_url = \"https://[YOUR HA DOMAIN AND PORT]/local/album_cover_temp.jpg?\" + Math.random();\n//The file type you willing to shuffle\nfile_exts_filter = [\"ogg\",\"mp3\",\"flac\",\"flv\",\"mp4\"];\n//Whether fixes the issue of HA media_player, need write accessible with mp3 folders\n//Turn off this option will skip these unsupport file names,\n//If files in your folder are all unsupport file names, it may makes this flow script loop.\nmsg.fix_ha_media_player = true;\n//Whether read the metadata in music file push to media_player instead of filenames.\nmsg.rich_info_support = true;\n//Whether reset to 1st song on next playing if you turned the music off (non-shuffle mode)\nmsg.reset_ordered_index_once_stop_playing = true;\n//============END CONFIG AREA=============\n\n\n\nObject.map = function(o, f, ctx) {\n    ctx = ctx || this;\n    var result = {};\n    Object.keys(o).forEach(function(k) {\n        result[k] = f.call(ctx, o[k], k, o); \n    });\n    return result;\n}\n\none_media_dirs_in_ha_conf = one_media_dirs_in_ha_conf.replace(\" \",\"\").split(':');\nmsg.media_root_name = one_media_dirs_in_ha_conf[0];\nmsg.media_root_path = one_media_dirs_in_ha_conf[1];\nplaylist_mapping = Object.map(playlist_mapping, function(v, k, playlist_mapping) {\n     return msg.media_root_path + '/' + v;\n  });\n// msg.playlist_mapping = playlist_mapping.map((key,value)=>value=media_root_path+value);\npath = playlist_mapping[msg.payload];\nif (path === undefined || path[path.length-1]!='/')\n    path = msg.media_root_path + '/' + msg.payload + '/';\nmsg.playlist_mapping = playlist_mapping;\nmsg.playlist_path = path;\nmsg.playlist_name = msg.payload;\nmsg.file_exts = file_exts_filter.map(item=>\".\"+item);\nmsg.payload = {\"start\":path,\"pattern\": file_exts_filter.map(item=>\"*.\"+item).join(\",\")};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 930,
+        "x": 490,
         "y": 80,
         "wires": [
             [
-                "42dc6497.38688c"
+                "9538893ea8c14a32"
             ]
         ]
     },
     {
-        "id": "7b2ec18b.535d5",
+        "id": "7f2c0ad11a93e4ca",
         "type": "fs-ops-access",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "is fav file exists",
         "path": "playlist_mapping[\"My Favorite\"]",
         "pathType": "msg",
@@ -424,17 +422,17 @@
         "y": 300,
         "wires": [
             [
-                "57cfe80c.d29f58"
+                "18166b99b1c31272"
             ],
             [
-                "dde1a78a.b45c58"
+                "aefbc1ab6c7fffdd"
             ]
         ]
     },
     {
-        "id": "57cfe80c.d29f58",
+        "id": "18166b99b1c31272",
         "type": "api-call-service",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "fav button on",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -452,14 +450,14 @@
         "y": 280,
         "wires": [
             [
-                "a1220b1d.bf98d8"
+                "256f8b172c5f0b76"
             ]
         ]
     },
     {
-        "id": "dde1a78a.b45c58",
+        "id": "aefbc1ab6c7fffdd",
         "type": "api-call-service",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "fav button off",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -477,14 +475,14 @@
         "y": 340,
         "wires": [
             [
-                "a1220b1d.bf98d8"
+                "256f8b172c5f0b76"
             ]
         ]
     },
     {
-        "id": "44dc0761.893fd8",
+        "id": "5c70d0cfb4ba3ae8",
         "type": "api-current-state",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "only playing",
         "server": "f25fc2a7.50d81",
         "version": 2,
@@ -513,15 +511,15 @@
         "y": 740,
         "wires": [
             [
-                "bf0b29c2.989458"
+                "76cdcdc59748cc46"
             ],
             []
         ]
     },
     {
-        "id": "b794607c.368ff",
+        "id": "d09c78a917b5eec5",
         "type": "fs-ops-delete",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "path": "playlist_mapping[\"My Favorite\"]",
         "pathType": "msg",
@@ -534,9 +532,9 @@
         ]
     },
     {
-        "id": "bf0b29c2.989458",
+        "id": "76cdcdc59748cc46",
         "type": "switch",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "copy or delete",
         "property": "set_fav",
         "propertyType": "msg",
@@ -559,17 +557,17 @@
         "y": 820,
         "wires": [
             [
-                "63d31658.fd04a8"
+                "8d6c333a10e5b083"
             ],
             [
-                "c4f81d55.595be"
+                "d1699ebe51b3ae48"
             ]
         ]
     },
     {
-        "id": "63d31658.fd04a8",
+        "id": "8d6c333a10e5b083",
         "type": "fs-ops-access",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "is fav file exists",
         "path": "playlist_mapping[\"My Favorite\"]",
         "pathType": "msg",
@@ -583,14 +581,14 @@
         "wires": [
             [],
             [
-                "9128b2f4.04a31"
+                "74c23b2a6025e7b6"
             ]
         ]
     },
     {
-        "id": "9128b2f4.04a31",
+        "id": "74c23b2a6025e7b6",
         "type": "fs-ops-copy",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "copy to fav folder",
         "sourcePath": "playlist_path",
         "sourcePathType": "msg",
@@ -609,9 +607,9 @@
         ]
     },
     {
-        "id": "c4f81d55.595be",
+        "id": "d1699ebe51b3ae48",
         "type": "fs-ops-access",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "is fav file exists",
         "path": "playlist_mapping[\"My Favorite\"]",
         "pathType": "msg",
@@ -624,29 +622,29 @@
         "y": 940,
         "wires": [
             [
-                "b794607c.368ff"
+                "d09c78a917b5eec5"
             ],
             []
         ]
     },
     {
-        "id": "b4a41b7a.44c238",
+        "id": "df2ba72a1c687e67",
         "type": "get media tags",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "filename": "",
         "x": 1380,
         "y": 240,
         "wires": [
             [
-                "45a93ed0.bd55a"
+                "c755b38c16613fc3"
             ]
         ]
     },
     {
-        "id": "45a93ed0.bd55a",
+        "id": "c755b38c16613fc3",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "func": "if (msg.payload != undefined && msg.payload.error != undefined){\n    return msg;\n}\nmetadata = msg.post_data[\"extra\"][\"metadata\"];\nif (msg.payload.tags != undefined){\n    tags = msg.payload.tags;\n    if (tags.title != undefined)\n        metadata['title'] = tags.title;\n        \n    if (tags.artist != undefined)\n        metadata['artist'] = tags.artist;\n        \n    if (tags.album != undefined)\n        metadata['albumName'] = tags.album;\n        \n    if (tags.track != undefined)\n        metadata['trackNumber'] = tags.track;\n        \n    if (tags.year != undefined)\n        metadata['releaseDate'] = tags.year;\n        \n    if (tags.picture != undefined){\n        msg.image = \"yes\";\n        msg.payload = new Buffer(tags.picture.data);\n        msg.filename = msg.album_cover_temp_file;\n        metadata['images'] = [{\"url\":msg.album_cover_temp_url}];\n    }\n}\nreturn msg;",
         "outputs": 1,
@@ -657,14 +655,14 @@
         "y": 240,
         "wires": [
             [
-                "772e70e0.a6915"
+                "d2ef14a36c5fd684"
             ]
         ]
     },
     {
-        "id": "772e70e0.a6915",
+        "id": "d2ef14a36c5fd684",
         "type": "switch",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "album image",
         "property": "image",
         "propertyType": "msg",
@@ -683,17 +681,17 @@
         "y": 240,
         "wires": [
             [
-                "a0d08060.d0d02"
+                "33ebc446c52e362e"
             ],
             [
-                "671fb776.567298"
+                "8b767e5323659824"
             ]
         ]
     },
     {
-        "id": "a0d08060.d0d02",
+        "id": "33ebc446c52e362e",
         "type": "file",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "filename": "",
         "appendNewline": false,
@@ -704,14 +702,14 @@
         "y": 240,
         "wires": [
             [
-                "671fb776.567298"
+                "8b767e5323659824"
             ]
         ]
     },
     {
-        "id": "e0e8e448.a65c98",
+        "id": "4b87d8b8dda6899e",
         "type": "switch",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "property": "file_name",
         "propertyType": "msg",
@@ -742,23 +740,23 @@
         "y": 80,
         "wires": [
             [
-                "3ad7f029.41ae7"
+                "2baf8ab4417f10c7"
             ],
             [
-                "3ad7f029.41ae7"
+                "2baf8ab4417f10c7"
             ],
             [
-                "3ad7f029.41ae7"
+                "2baf8ab4417f10c7"
             ],
             [
-                "ab487f06.1ca8f"
+                "4f2a6e3c81594537"
             ]
         ]
     },
     {
-        "id": "3ad7f029.41ae7",
+        "id": "2baf8ab4417f10c7",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "remove spec chars",
         "func": "file_name = msg.file_name;\nwhile(file_name.includes(\"..\"))\n    file_name = file_name.replace(\"..\",\"__\");\nwhile(file_name.includes(\"%\"))\n    file_name = file_name.replace(\"%\",\"\");\nwhile(file_name.includes(\"~\"))\n    file_name = file_name.replace(\"~\",\"-\");\nmsg.to_file_name = file_name;\nreturn msg;",
         "outputs": 1,
@@ -769,14 +767,14 @@
         "y": 80,
         "wires": [
             [
-                "a755d594.3a3fe8"
+                "4c9194274ea5fa95"
             ]
         ]
     },
     {
-        "id": "258b4fb3.d95b7",
+        "id": "2dc3b7e99aea0705",
         "type": "fs-ops-move",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "move file",
         "sourcePath": "playlist_path",
         "sourcePathType": "msg",
@@ -791,14 +789,14 @@
         "y": 160,
         "wires": [
             [
-                "42dc6497.38688c"
+                "b164839b2ad1e01e"
             ]
         ]
     },
     {
-        "id": "42dc6497.38688c",
+        "id": "b164839b2ad1e01e",
         "type": "fs-file-lister",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "start": "Vincent Qiu",
         "pattern": "by HOHO``",
@@ -814,14 +812,14 @@
         "y": 120,
         "wires": [
             [
-                "16099e1165f1fd75"
+                "04a44e81b891a133"
             ]
         ]
     },
     {
-        "id": "671fb776.567298",
+        "id": "8b767e5323659824",
         "type": "switch",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "fav enabled?",
         "property": "playlist_mapping[\"My Favorite\"]",
         "propertyType": "msg",
@@ -840,17 +838,17 @@
         "y": 300,
         "wires": [
             [
-                "7b2ec18b.535d5"
+                "7f2c0ad11a93e4ca"
             ],
             [
-                "a1220b1d.bf98d8"
+                "256f8b172c5f0b76"
             ]
         ]
     },
     {
-        "id": "79e1fcf2.fdd3c4",
+        "id": "40f3d4ee608dd037",
         "type": "api-current-state",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "if media player is playing",
         "server": "f25fc2a7.50d81",
         "version": 2,
@@ -879,15 +877,15 @@
         "y": 520,
         "wires": [
             [
-                "52d23ddf.ff4954"
+                "aca5336f3c30a954"
             ],
             []
         ]
     },
     {
-        "id": "8e95060b.c023e8",
+        "id": "35d41d9ccf3cbf4c",
         "type": "api-current-state",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "button is on?",
         "server": "f25fc2a7.50d81",
         "version": 2,
@@ -916,15 +914,15 @@
         "y": 320,
         "wires": [
             [
-                "a232d975.043968"
+                "14a54302eff9916f"
             ],
             []
         ]
     },
     {
-        "id": "a755d594.3a3fe8",
+        "id": "4c9194274ea5fa95",
         "type": "switch",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "fix filename",
         "property": "fix_ha_media_player",
         "propertyType": "msg",
@@ -943,17 +941,17 @@
         "y": 160,
         "wires": [
             [
-                "258b4fb3.d95b7"
+                "2dc3b7e99aea0705"
             ],
             [
-                "42dc6497.38688c"
+                "b164839b2ad1e01e"
             ]
         ]
     },
     {
-        "id": "ab487f06.1ca8f",
+        "id": "4f2a6e3c81594537",
         "type": "switch",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "rich info?",
         "property": "rich_info_support",
         "propertyType": "msg",
@@ -972,35 +970,17 @@
         "y": 240,
         "wires": [
             [
-                "b4a41b7a.44c238"
+                "df2ba72a1c687e67"
             ],
             [
-                "671fb776.567298"
+                "8b767e5323659824"
             ]
         ]
     },
     {
-        "id": "d843e68c.f24a38",
-        "type": "debug",
-        "z": "13ac7585.18210a",
-        "d": true,
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 430,
-        "y": 400,
-        "wires": []
-    },
-    {
-        "id": "7413df63.0ef85",
+        "id": "7f6498a055bb8fdc",
         "type": "switch",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "if prev status playing",
         "property": "data.old_state.state",
         "propertyType": "msg",
@@ -1023,17 +1003,17 @@
         "y": 280,
         "wires": [
             [
-                "f4ccfdb9.d779d"
+                "bc536ad1c428060c"
             ],
             [
-                "f4ccfdb9.d779d"
+                "bc536ad1c428060c"
             ]
         ]
     },
     {
-        "id": "acde7d7d.fc4ab",
+        "id": "655769d95e7fd455",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "last button on timestamp",
         "func": "flow.set(\"last_on\",Math.floor(Date.now() / 1000));\nreturn msg;",
         "outputs": 1,
@@ -1048,9 +1028,9 @@
         ]
     },
     {
-        "id": "f8166d46.7ad51",
+        "id": "abdab12e2a12b39f",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "button on time check",
         "func": "if (msg.payload != \"off\" \n    && msg.payload != \"paused\"\n    && msg.payload != \"unknown\"\n    ){\n    msg.inv = msg.payload;\n    return [null,msg];\n}\nif (flow.get(\"last_on\") !== undefined){\n    inv = Math.floor(Date.now() / 1000) - flow.get(\"last_on\")\n    if (inv > 5){\n        msg.inv = inv;\n        return [msg,null];\n        }\n    else{\n        msg.inv = \"last_on undefined\"\n        return [null,msg];\n        }\n}\nmsg.inv = \"not exist\";\nreturn [msg,null];",
         "outputs": 2,
@@ -1061,15 +1041,15 @@
         "y": 320,
         "wires": [
             [
-                "8e95060b.c023e8"
+                "35d41d9ccf3cbf4c"
             ],
             []
         ]
     },
     {
-        "id": "8d4ea383.c8183",
+        "id": "5cfcc17cd4e7f8a2",
         "type": "inject",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "props": [
             {
@@ -1091,14 +1071,14 @@
         "y": 80,
         "wires": [
             [
-                "d0b8c29b.4f194"
+                "ce56a7eea9d35a52"
             ]
         ]
     },
     {
-        "id": "66bb0811.8386b8",
+        "id": "1186c151822eb8b4",
         "type": "server-state-changed",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "delete song button state",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -1154,15 +1134,15 @@
         "y": 680,
         "wires": [
             [
-                "c2fdb6d.8efb948"
+                "2958bdfcadd68ca9"
             ],
             []
         ]
     },
     {
-        "id": "c2fdb6d.8efb948",
+        "id": "2958bdfcadd68ca9",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "check",
         "func": "\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return [null,null];\n}\nreturn [data,null];",
         "outputs": 2,
@@ -1173,15 +1153,15 @@
         "y": 740,
         "wires": [
             [
-                "ca2c2541.a75ab8"
+                "9146852c64944807"
             ],
             []
         ]
     },
     {
-        "id": "ca2c2541.a75ab8",
+        "id": "9146852c64944807",
         "type": "api-current-state",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "only playing",
         "server": "f25fc2a7.50d81",
         "version": 2,
@@ -1210,15 +1190,15 @@
         "y": 740,
         "wires": [
             [
-                "84764267.cd158"
+                "160d571e91bbdfe4"
             ],
             []
         ]
     },
     {
-        "id": "84764267.cd158",
+        "id": "160d571e91bbdfe4",
         "type": "fs-ops-delete",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "path": "playlist_path",
         "pathType": "msg",
@@ -1228,14 +1208,14 @@
         "y": 800,
         "wires": [
             [
-                "2da81035.6806d"
+                "cce3bf9040a086db"
             ]
         ]
     },
     {
-        "id": "2da81035.6806d",
+        "id": "cce3bf9040a086db",
         "type": "api-call-service",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "server": "f25fc2a7.50d81",
         "version": 3,
@@ -1253,14 +1233,14 @@
         "y": 800,
         "wires": [
             [
-                "d0b8c29b.4f194"
+                "ce56a7eea9d35a52"
             ]
         ]
     },
     {
-        "id": "58ff70b9.a6b58",
+        "id": "91165db511c5b69d",
         "type": "random-item",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "input": "payload",
         "inputType": "msg",
@@ -1271,14 +1251,14 @@
         "y": 80,
         "wires": [
             [
-                "143859dc.b68516"
+                "48a10149c18a1bd2"
             ]
         ]
     },
     {
-        "id": "16099e1165f1fd75",
+        "id": "04a44e81b891a133",
         "type": "api-current-state",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "is shuffle_music",
         "server": "f25fc2a7.50d81",
         "version": 2,
@@ -1306,34 +1286,17 @@
         "y": 180,
         "wires": [
             [
-                "58ff70b9.a6b58"
+                "91165db511c5b69d"
             ],
             [
-                "143859dc.b68516"
+                "48a10149c18a1bd2"
             ]
         ]
     },
     {
-        "id": "a0308711d66e4646",
-        "type": "debug",
-        "z": "13ac7585.18210a",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1150,
-        "y": 320,
-        "wires": []
-    },
-    {
-        "id": "fdc644952ed43f4a",
+        "id": "6c8abb784eba0764",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "set current ordered song index to top",
         "func": "//delete this node if you don't want the ordered song playing be\n//reset to the first one once stop playing.\n\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return null;\n}\nif (msg.reset_ordered_index_once_stop_playing==false)\n    return data;\ndata.current_file_index_of_ordered = -1;\nnode.warn(\"reset index\");\nglobal.set(\"hohoFavoriteSong\",data);\nreturn data;",
         "outputs": 1,
@@ -1348,9 +1311,9 @@
         ]
     },
     {
-        "id": "6eddfc88cd9b2183",
+        "id": "bc33a6e6331642f2",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "set current ordered song index to top",
         "func": "\n\nvar data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    return null;\n}\nif (msg.reset_ordered_index_once_stop_playing==false)\n    return data;\ndata.current_file_index_of_ordered = -1;\nnode.warn(\"reset index\");\nglobal.set(\"hohoFavoriteSong\",data);\nreturn data;",
         "outputs": 1,
@@ -1361,15 +1324,13 @@
         "x": 550,
         "y": 580,
         "wires": [
-            [
-                "a0308711d66e4646"
-            ]
+            []
         ]
     },
     {
-        "id": "7754cb632cf7fb6d",
+        "id": "a5434193281467c4",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "increase ordered song playing index",
         "func": "var data = global.get(\"hohoFavoriteSong\");\nif (data === undefined ||data === null ){\n    data = {};\n    node.warn(\"data is null\");\n    data.current_file_index_of_ordered = -1;\n}else{\n    if (data.current_file_index_of_ordered === undefined ||\n    data.current_file_index_of_ordered === null\n    ){\n        node.warn(\"current_file_index_of_ordered is null\");\n        data.current_file_index_of_ordered = -1;\n    }\n    else{\n        node.warn(data.current_file_index_of_ordered);\n        data.current_file_index_of_ordered++;\n    }\n}\n// global.set(\"hohoFavoriteSong\",data);\nmsg.current_file_index_of_ordered = data.current_file_index_of_ordered;\nreturn msg;",
         "outputs": 1,
@@ -1377,18 +1338,18 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
+        "x": 430,
         "y": 140,
         "wires": [
             [
-                "40412deb.dc30c4"
+                "a8785f09ced07bb7"
             ]
         ]
     },
     {
-        "id": "cc9a3c43bb32d13a",
+        "id": "ef0df39938c25241",
         "type": "inject",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "",
         "props": [
             {
@@ -1410,14 +1371,14 @@
         "y": 980,
         "wires": [
             [
-                "0f54651688d68e53"
+                "62cb6f40505d36ac"
             ]
         ]
     },
     {
-        "id": "0f54651688d68e53",
+        "id": "62cb6f40505d36ac",
         "type": "function",
-        "z": "13ac7585.18210a",
+        "z": "be703e854ac6545d",
         "name": "set hohoFavoriteSong null",
         "func": "\nglobal.set(\"hohoFavoriteSong\",undefined);",
         "outputs": 2,
@@ -1431,6 +1392,190 @@
             [],
             []
         ]
+    },
+    {
+        "id": "ccd695498b35568e",
+        "type": "fs-file-lister",
+        "z": "be703e854ac6545d",
+        "name": "",
+        "start": "Vincent Qiu",
+        "pattern": "by HOHO``",
+        "folders": "*",
+        "hidden": false,
+        "lstype": "directories",
+        "path": false,
+        "single": true,
+        "depth": "0",
+        "stat": false,
+        "showWarnings": true,
+        "x": 640,
+        "y": 260,
+        "wires": [
+            [
+                "ecaba1cb79f144f7",
+                "cc4259ecaf68f8eb"
+            ]
+        ]
+    },
+    {
+        "id": "8042cf7514323856",
+        "type": "function",
+        "z": "be703e854ac6545d",
+        "name": "folder scan",
+        "func": "msg.payload = {\"start\":msg.media_root_path,\"pattern\": \"*\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "ccd695498b35568e"
+            ]
+        ]
+    },
+    {
+        "id": "ecaba1cb79f144f7",
+        "type": "api-call-service",
+        "z": "be703e854ac6545d",
+        "name": "adds folders to droplist",
+        "server": "f25fc2a7.50d81",
+        "version": 3,
+        "debugenabled": false,
+        "service_domain": "input_select",
+        "service": "set_options",
+        "entityId": "input_select.music_playlist",
+        "data": "{\"options\":msg.payload}",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 820,
+        "y": 260,
+        "wires": [
+            [
+                "9a2d7701d2c4bf83"
+            ]
+        ]
+    },
+    {
+        "id": "9538893ea8c14a32",
+        "type": "api-current-state",
+        "z": "be703e854ac6545d",
+        "name": "is reload?",
+        "server": "f25fc2a7.50d81",
+        "version": 2,
+        "outputs": 2,
+        "halt_if": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "input_boolean.reload_playlist",
+        "state_type": "str",
+        "blockInputOverrides": false,
+        "outputProperties": [],
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 700,
+        "y": 80,
+        "wires": [
+            [
+                "8042cf7514323856"
+            ],
+            [
+                "b164839b2ad1e01e"
+            ]
+        ]
+    },
+    {
+        "id": "9a2d7701d2c4bf83",
+        "type": "api-call-service",
+        "z": "be703e854ac6545d",
+        "name": "reset reload btn status to off",
+        "server": "f25fc2a7.50d81",
+        "version": 3,
+        "debugenabled": false,
+        "service_domain": "input_boolean",
+        "service": "turn_off",
+        "entityId": "input_boolean.reload_playlist",
+        "data": "",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "mustacheAltTags": false,
+        "outputProperties": [],
+        "queue": "none",
+        "x": 1040,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9832cc55eb034ea1",
+        "type": "server-state-changed",
+        "z": "be703e854ac6545d",
+        "name": "reload playlist clicked",
+        "server": "f25fc2a7.50d81",
+        "version": 3,
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "entityidfilter": "input_boolean.reload_playlist",
+        "entityidfiltertype": "exact",
+        "outputinitially": false,
+        "state_type": "str",
+        "haltifstate": "on",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "outputs": 2,
+        "output_only_on_state_change": true,
+        "for": 0,
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [],
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "a8785f09ced07bb7"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "cc4259ecaf68f8eb",
+        "type": "debug",
+        "z": "be703e854ac6545d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 480,
+        "wires": []
     },
     {
         "id": "f25fc2a7.50d81",
