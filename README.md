@@ -127,3 +127,9 @@ Your local folder should looks like this:
 
 
 ## Give a star to this repo if you like it.
+
+## Troubleshooting
+
+1. Make sure you have all buttons on your localace.
+2. Clicks the "Reload Playlist" button will have your "Music Playlist" drop down list filled with all subfolders.
+3. Attachs "Debug" node and changes the "Debug" node output to "complete msg object" to see the details in right side bar of any node that might have problem (in node-red), by doing this you might need to a bit familar with node-red.
