@@ -53,7 +53,33 @@ Your local folder should looks like this:
 
 ## Setup
 
-1. Create the below input entity in your HA -> Configuration -> Helpers.
+1. Put/Merge the input sections into your configurations
+
+```yaml
+input_boolean:
+  favorite_song:
+    name: Favorite Song
+    icon: mdi:heart
+  music_time:
+    name: Music Time
+    icon: mdi:music
+  delete_song:
+    name: Delete Song
+    icon: mdi:delete
+  shuffle_music:
+    name: Shuffle Music
+    icon: mdi:shuffle-variant
+  reload_playlist:
+    name: Reload Playlist
+    icon: mdi:reload
+input_select:
+  music_playlist:
+    name: Music Playlist
+    options:
+      - Mp3
+      - My Favorite
+```
+> Looks like as below:
 
     Name|Entity ID|Type|Options|Icon
     ---|---|---|---|---
