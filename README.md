@@ -46,6 +46,14 @@ Your local folder should looks like this:
 | -- | favorite_mp3/
 | -- | -- | b.mp3
 | -- | -- | c.mp3
+| -- | your_customized_name_folder/
+| -- | -- | your_customized_name_folder2/
+| -- | -- | -- | d.mp3
+| -- | -- | -- | e.mp3
+| -- | -- | f.mp3
+| -- | your_customized_name_folder3/
+| -- | -- | g.mp3
+balabala...
 ```
 > I mounted the folder (/config/media) [rw] from my SMB server, as you could easily create this folder if disk space is not a problem.
 
