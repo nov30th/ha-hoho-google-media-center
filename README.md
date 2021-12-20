@@ -81,14 +81,15 @@ input_select:
 ```
 > Looks like as below:
 
-    Name|Entity ID|Type|Options|Icon
-    ---|---|---|---|---
-    Favorite Song|input_boolean.favorite_song|Toggle||hass:heart
-    Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
-    Music Time|input_boolean.music_time|Toggle||hass:music
-    Delete Song|input_boolean.delete_song|Toggle||hass:delete
-    Shuffle Music|input_boolean.shuffle_music|Toggle||mdi:shuffle-variant
-    Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
+
+Name|Entity ID|Type|Options|Icon
+---|---|---|---|---
+Favorite Song|input_boolean.favorite_song|Toggle||hass:heart
+Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
+Music Time|input_boolean.music_time|Toggle||hass:music
+Delete Song|input_boolean.delete_song|Toggle||hass:delete
+Shuffle Music|input_boolean.shuffle_music|Toggle||mdi:shuffle-variant
+Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
 
 2. Install node-red palettes
 
