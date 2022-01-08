@@ -119,19 +119,6 @@ Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
 
     ![lovelace](images/buttons.png)
 
-    > Next Song Button:
-    ```yaml
-    type: 'custom:button-card'
-    tap_action:
-    action: call-service
-    service: media_player.media_stop
-    service_data:
-        entity_id: media_player.home_group
-    size: 50px
-    icon: 'hass:skip-forward'
-    name: Next Song
-    ```
-    
     > Control Buttons
     ```yaml
     type: horizontal-stack
