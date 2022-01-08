@@ -120,7 +120,7 @@ Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
     ![lovelace](images/buttons.png)
 
     > Next Song Button:
-    ```
+    ```yaml
     type: 'custom:button-card'
     tap_action:
     action: call-service
@@ -131,9 +131,59 @@ Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
     icon: 'hass:skip-forward'
     name: Next Song
     ```
+    
+    > Control Buttons
+    ```yaml
+    type: horizontal-stack
+    cards:
+      - type: button
+        tap_action:
+          action: toggle
+        entity: input_boolean.music_time
+        show_name: false
+        icon: hass:music
+        show_state: true
+        icon_height: 50px
+      - type: button
+        tap_action:
+          action: toggle
+        entity: input_boolean.delete_song
+      - type: custom:button-card
+        tap_action:
+          action: call-service
+          service: media_player.media_stop
+          service_data:
+            entity_id: media_player.home_group
+        icon: hass:skip-forward
+        name: Next Song
+        size: 80px
+      - type: button
+        tap_action:
+          action: toggle
+        entity: input_boolean.shuffle_music
+    ```
+
+    > Option Buttons
+    ```yaml
+    type: horizontal-stack
+    cards:
+      - type: entity
+        entity: input_select.music_playlist
+      - type: custom:button-card
+        tap_action:
+          action: toggle
+        entity: input_boolean.favorite_song
+        show_name: false
+        show_icon: true
+        size: 90px
+      - type: button
+        tap_action:
+          action: toggle
+        entity: input_boolean.reload_playlist
+    ```
 
     > Volume Control
-    ```
+    ```yaml
     type: entities
     entities:
     - type: 'custom:slider-entity-row'
