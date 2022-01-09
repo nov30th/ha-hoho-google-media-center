@@ -29,6 +29,7 @@ No delay, no buffering. ***(no converting, send music file to device directly & 
 
 1. You need to have node-red installed in your HA.
 2. Set your media folder as following or customized and configure it in node-red later.
+3. You might need to have [HACS](https://hacs.xyz/docs/setup/download) installed to show customized buttons in UI (optional).
 ```
 homeassistant:
   media_dirs:
@@ -63,7 +64,7 @@ balabala...
 
 ## Setup
 
-1. Put/Merge the input sections into your configurations
+1. Put/Merge the input sections into your configurations (reboot HA to take effect)
 
 ```yaml
 input_boolean:
@@ -89,17 +90,16 @@ input_select:
       - Mp3
       - My Favorite
 ```
-> Looks like as below:
+- Looks like as below:
 
-
-Name|Entity ID|Type|Options|Icon
----|---|---|---|---
-Favorite Song|input_boolean.favorite_song|Toggle||hass:heart
-Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
-Music Time|input_boolean.music_time|Toggle||hass:music
-Delete Song|input_boolean.delete_song|Toggle||hass:delete
-Shuffle Music|input_boolean.shuffle_music|Toggle||mdi:shuffle-variant
-Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
+  Name|Entity ID|Type|Options|Icon
+  ---|---|---|---|---
+  Favorite Song|input_boolean.favorite_song|Toggle||hass:heart
+  Music Playlist|input_select.music_playlist|Dropdown|Mp3;My Favorite(2 items)
+  Music Time|input_boolean.music_time|Toggle||hass:music
+  Delete Song|input_boolean.delete_song|Toggle||hass:delete
+  Shuffle Music|input_boolean.shuffle_music|Toggle||mdi:shuffle-variant
+  Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
 
 2. Install node-red palettes
 
@@ -119,7 +119,15 @@ Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
 
     ![lovelace](images/buttons.png)
 
+
+    Install "button-card" in HACS - Frontend
+    
+    Install "bslider-entity-row" in HACS - Frontend
+
+    Create and parse the UI code / buttons in your UI.
+    
     > Control Buttons
+
     ```yaml
     type: horizontal-stack
     cards:
@@ -193,6 +201,8 @@ Reload Playlist|input_boolean.reload_playlist|Toggle||mdi:reload
     msg.fix_ha_media_player|Whether fixes the issue of HA media_player
     msg.rich_info_support|Whether read the metadata in music file push to media_player instead of filenames.
     msg.reset_ordered_index_once_stop_playing|Whether reset to 1st song on next playing if you turned the music off (non-shuffle mode)
+
+2. Replace the media_player.home_group to your media player ID or group ID.
 
 ## Enjoy the powerful node-red and this content.
 
