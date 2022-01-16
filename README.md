@@ -1,6 +1,8 @@
 # ha-hoho-google-media-centre
 Homeassistant Google Home/Nest/TV music centre （Chromecast)
 
+[My another uncompleted HA Integration with more features](https://github.com/nov30th/chromecast_media_center)
+
 ## Summary
 上周买了两个Google Nest Mini 与 Chromecast，在此之前，从来没发现Google设备如此方便，可以在多个音箱上同时播放音乐，能让家里无死角充满温馨的音乐。于是在我自己的HA系统里寻找是否有现成简单的组件来进行随机播放音乐，以及音乐列表功能。
 结果发现多是YouTube与Spotify在线播放，在国内这非常不方便，VPN基本都有总流量，用本地音乐更合适，于是 [HA国外讨论区](https://community.home-assistant.io/t/m3u-playlists-in-media-browser/243231/31)找了和提问都没有发现现成的，那么，随手做一个吧。
